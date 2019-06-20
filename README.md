@@ -38,9 +38,9 @@ make -v
 # https://golang.org/doc/install#install
 # ------------------------------------------------
 # export GOLANG_VERSION=1.12.6 
-# [1.12.6] is latest when I write this, but https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#go-environment mentions we need to go [1.8]
+# [1.12.6] is latest when I write this, but https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#go-environment mentions we need to go [1.8] 
 
-export GOLANG_VERSION=1.8
+export GOLANG_VERSION=1.9.7
 export MACHINE_OS=linux
 export MACHINE_PROCESSOR_ARCH=amd64
 export GOLANG_BINARY_DWLD_URI=https://dl.google.com/go/go$GOLANG_VERSION.$MACHINE_OS-$MACHINE_PROCESSOR_ARCH.tar.gz
@@ -106,4 +106,19 @@ make all
 
 ```
 
-* 
+* Excuse-me : Docuementation on Ethereum SI terribnle I just ran the `make all` build command on source, and well, after I read, and complied with, the `1.8` Golang version requirement, quess what first error messgae I got ? : 
+
+```bash
+jbl@poste-devops-typique:~/.ethereum-test/build$ make all
+build/env.sh go run build/ci.go install
+ci.go:205: You have Go version go1.8
+ci.go:206: go-ethereum requires at least Go version 1.9 and cannot
+ci.go:207: be compiled with an earlier version. Please upgrade your Go installation.
+exit status 1
+Makefile:20: recipe for target 'all' failed
+make: *** [all] Error 1
+jbl@poste-devops-typique:~/.ethereum-test/build$ 
+# you *!/\-/-*X
+```
+
+*
