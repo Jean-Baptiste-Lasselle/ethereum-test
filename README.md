@@ -212,7 +212,7 @@ I am afraid this error, `Smartcard socket not found, disabling    err="stat /run
 
 _**About the `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error**_
 
-SO first things first, questions : 
+So first things first, questions : 
 
 * What are  `Smart Cards`?
 Well, Thank you Debian Wiki, we have a full explanation on Debian's Wiki https://wiki.debian.org/Smartcards : 
@@ -232,6 +232,23 @@ Even more concisely, it's a utility the Ethereum Blockchain needs
 
 _Howdi, Is there not an NVIDIA missing here...? (or `OpenCL / Smart Card` ... might be that)..._
 
+* Let's scrub a bit Mr. Chu `./eth-private-net` script, and : 
+  * Here I highlight the part running if the `init` arg is supplied to `./eth-private-net` : 
+
+```bash
+case $CMD in
+  init)
+    for IDENTITY in ${IDENTITIES[@]}; do
+      echo "Initializing genesis block for $IDENTITY"
+      geth --datadir=./$IDENTITY $FLAGS init genesis.json
+    done
+;;
+```
+  * And if you `Ctrl + F / grep` into the `./eth-private-net`, searching for the `bootnode` string, or even the `boot` string, well you will have .... `zero` results. 
+  * Okay, so my worry about not finding anything about the required  `bootnode`, in the logs, where completely justified. Not that am happy to be right, there, I'd have so preferred to be worng. 
+  * All in all, one probable cause here is : Mr. Chu worked on a version of `Ethereum` a long time ago, and has probably not worked on latest versions of `Ethereum` (as of `June 2019`). Indeed, Mr. Chu made 28 commits , and zero issues were opened, just as many closed. That is really not a lot of work, and zero collaboration.
+  * Eventually, I'll try the same recipe of mine, on a bare metal debian on alienware with NVIDIA, we'll see if the `SmartCard's Socket` error disapears, just because I switched hardware, but it might just as well the bootnode's setup missing part, that's supposed to spun up / open a `SmartCard Socket` 
+  
 
 Source of informations : 
 * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751745 : contact `Ludovic Rousseau <ludovic.rousseau@free.fr>` definitely looks like a LSB module / Linux driver issue, might be `Debian` specific, and not happening on Ubuntu which Mr. Chu probably used for his tests
