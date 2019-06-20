@@ -54,15 +54,15 @@ cd $OPS_HOME/.golang-provisioning
 # 1. Installing Golang Env., with GOPATH set. https://golang.org/doc/install#install
 # 
 wget $GOLANG_BINARY_DWLD_URI
-tar -C /usr/local -xzf go$GOLANG_VERSION.$MACHINE_OS-$MACHINE_PROCESSOR_ARCH.tar.gz
+sudo tar -C /usr/local -xzf go$GOLANG_VERSION.$MACHINE_OS-$MACHINE_PROCESSOR_ARCH.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 # 
 # For a persistent configuration (after restarting the machine) : 
 echo "export PATH=\$PATH:/usr/local/go/bin" >> $HOME/.profile
 # But we just need the environement set for one execution, and forget about all of it.
 # Just one purpose might be relevant here : for debugging quickly, so basically keep this one commented for produciton envronnements (actual pipelines).
-
-
+# print go env. infos
+go env
 
 
 
