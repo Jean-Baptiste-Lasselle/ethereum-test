@@ -222,13 +222,15 @@ Well, Thank you Debian Wiki, we have a full explanation on Debian's Wiki https:/
 > 
 > Smartcards are used with cryptographic keys to ensure that their private half is never on any hard disk or other general storage device, and therefore that it cannot possibly be stolen (because there's only one possible copy of it). Most physical key "dongles" also implement a chip card interface device (CCID) and so can be used as smartcards, even though you can never remove the smartcard from the "reader". 
 > 
-To sum that all up, it's a crypto utility, ensuring intégrity and privacy of a private key, using haarware and software (not just software alone, with standard hardware) 
+To sum that all up, it's a crypto utility, ensuring integrity and privacy of a private key, using hardware and software trickes (not just software alone, with standard hardware).
 
-Even more concisely, it's a utility the Ethereum Blockchain needs
+Even more concisely, it's a utility the `Ethereum` Blockchain needs
 
-* What si the `pcscd` executable?  Well its an executable supposed to be a driver for a Smartcard
+* What is the `pcscd` executable?  Well its an executable supposed to be a driver for a Smartcard
 
-* So what the Heck does this error message means? Well it's the `pcscd` executable, the SmartCard driver, terminating its execution, which just tells us he could not find the `SmartCard's Socket`, therefore can't do what it has to do. Actually, given the `socket` term, I assume the communication between the `SmartCard` and the `pcscd` driver daemon, is impossible, which obviously makes it difficult to work with a SMartCArd, even if you're a Rock Solid Debian. 
+* So what the Heck does this error message means? Well it's about the `pcscd` executable, the SmartCard driver. And I'm kind of almost sure I will have to send [Ludovic Rousseau](https://ludovicrousseau.blogspot.com/2011/11/pcscd-auto-start-using-systemd.html) some big thanks, soon...
+<!-- terminating its execution, which just tells us he could not find the `SmartCard's Socket`, therefore can't do what it has to do. Actually, given the `socket` term, I assume the communication between the `SmartCard` and the `pcscd` driver daemon, is impossible, which obviously makes it difficult to work with a SMartCArd, even if you're a Rock Solid Debian. 
+-->
 
 _Howdi, Is there not an NVIDIA missing here...? (or `OpenCL / Smart Card` ... might be that)..._
 
