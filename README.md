@@ -15,17 +15,40 @@ export GO_ETH_CLIENT_SOURCE_CODE_REF=https://github.com/ethereum/go-ethereum
 
 
 # ------------------------------------------------
+# Classic GCC / Make installation env. on Debian Stretch
+# A./ Because I wanna try on Debian instead of recommended Ubuntu
+# B./ Because the bloody ethereum Team won't mention any version numbers about the build stack here : https://github.com/ethereum/go-ethereum#building-the-source see 
+# ------------------------------------------------
+
+mkdir -p $OPS_HOME/.gcc-provisioning
+cd $OPS_HOME/.gcc-provisioning
+
+sudo apt-get install -y build-essential
+# Just the rock solid manpage documentation 
+sudo apt-get install -y manpages-dev
+
+# Checks
+whereis gcc make
+gcc -v
+make -v
+
+
+# ------------------------------------------------
 # GOLANG installation
 # https://golang.org/doc/install#install
 # ------------------------------------------------
 # export GOLANG_VERSION=1.12.6 
-# 1.12.6 which is latest, but https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#go-environment mentions we need go [1.8]
+# [1.12.6] is latest when I write this, but https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#go-environment mentions we need to go [1.8]
+
 export GOLANG_VERSION=1.8
-# because of 
 export MACHINE_OS=linux
 export MACHINE_PROCESSOR_ARCH=amd64
 export GOLANG_BINARY_DWLD_URI=https://dl.google.com/go/go$GOLANG_VERSION.$MACHINE_OS-$MACHINE_PROCESSOR_ARCH.tar.gz
-export GOLANG_OPS_HOME=~/.golang
+
+# 
+
+mkdir -p $OPS_HOME/.golang-provisioning
+cd $OPS_HOME/.golang-provisioning
 
 # you get the link for your OS distrib. and your proc. at Official Golang download page https://golang.org/dl/
 # 1. Installing Golang Env., with GOPATH set. https://golang.org/doc/install#install
@@ -42,19 +65,6 @@ echo "export PATH=\$PATH:/usr/local/go/bin" >> $HOME/.profile
 
 
 
-# ------------------------------------------------
-# Classic GCC / Make installation env. on Debian Stretch
-# A./ Because I wanna try on Debian instead of recommended Ubuntu
-# B./ Because the bloody ethereum Team won't mention any version numbers about the build stack here : https://github.com/ethereum/go-ethereum#building-the-source see 
-# ------------------------------------------------
-
-sudo apt-get install -y build-essential
-# Just the rock solid manpage documentation 
-sudo apt-get install -y manpages-dev
-whereis gcc make
-gcc -v
-make -v
-
 
 # ------------------------------------------------
 # ------------------------------------------------
@@ -66,20 +76,22 @@ make -v
 # ------------------------------------------------
 
 # ------------------------------------------------
-mkdir -p $OPS_HOME/build
 
-git clone "$GO_ETH_CLIENT_SOURCE_CODE_REF" $OPS_HOME/build
+mkdir -p $OPS_HOME/build
+cd $OPS_HOME/build
+
+git clone "$GO_ETH_CLIENT_SOURCE_CODE_REF" .
 
 # Bugging Constraint we have for the build, just won't care to fix that just now : 
 # [You must have your working copy under $GOPATH/src/github.com/ethereum/go-ethereum]
 # So I'll try this : 
 sudo mkdir -p $GOPATH/src/github.com/ethereum/go-ethereum
 export THATS_WHOIAM=$(whoami)
-ln -s $OPS_HOME/build $GOPATH/src/github.com/ethereum/go-ethereum
+sudo -u $THATS_WHOIAM ln -s $OPS_HOME/build/* $GOPATH/src/github.com/ethereum/go-ethereum
 # just to ckeck : 
 ls -allh $GOPATH/src/github.com/ethereum/go-ethereum
+ls -allh $OPS_HOME/build/*
 
-cd $OPS_HOME/build
 
 # Now, we should be able to run the build with : 
 # go install -v ./...
