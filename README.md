@@ -74,7 +74,6 @@ go env
 # https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide
 # https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#building-and-testing
 # ------------------------------------------------
-
 # ------------------------------------------------
 
 mkdir -p $OPS_HOME/build
@@ -103,18 +102,116 @@ make all
 # Never the less, this incredible requirement, should be more a [go get github.com/ethereum/go-ethereum], which would immediately properly place the lib where it should be for the build...(Do the guys who write the READMees know anything about `go`...?)
 
 # Now setting up all built executable Folder to the PATH
+ls -allh $OPS_HOME/build/build/bin
+echo "export PATH=\$PATH:\$OPS_HOME/build/build/bin" >> ~/.profile
+export PATH=$PATH:$OPS_HOME/build/build/bin
 ls -allh $OPS_HOME/build/bin
-echo "export PATH=\$PATH:\$OPS_HOME/build/bin" >> ~/.profile
-export PATH=$PATH:$OPS_HOME/build/bin
-ls -allh $OPS_HOME/build/bin
-echo "You Will now find all built  executable, including [geth], in [$OPS_HOME/build/bin] "
-# ./build/bin/geth version
+echo "You Will now find all built  executable, including [geth], in [$OPS_HOME/build/build/bin] "
+# ./build/build/bin/geth version
 geth version
 
 
-```
 
-* Excuse-me : Docuementation on Ethereum SI terribnle I just ran the `make all` build command on source, and well, after I read, and complied with, the `1.8` Golang version requirement, quess what first error messgae I got ? : 
+# ------------------------------------------------
+# ------------------------------------------------
+# And At last, testing [Mr. Vincent Chu's recipe](https://github.com/vincentchu/eth-private-net)
+# 
+# So the tests are multiple, since Mr. Chu
+# provides full use cases, kind of e2e tests, in
+# addition to the provisioning recipe.
+# So here 's how we'lldo all that : 
+# 
+# => [$OPS_HOME/abovetest/provisioning] : Run and Tests on provisioning recipe
+# => [$OPS_HOME/abovetest/usecase1] : e2e Tests on use case 1
+# => [$OPS_HOME/abovetest/usecase2] : e2e Tests on use case 2
+# => [$OPS_HOME/abovetest/usecase3] : e2e Tests on use case 3 
+# ------------------------------------------------
+# ------------------------------------------------
+
+# ------------------------------------------------
+# 1./ provisioning 
+# 
+mkdir -p $OPS_HOME/abovetest/provisioning
+cd $OPS_HOME/abovetest/provisioning
+
+git clone "$RECIPE_UNDER_TEST" .
+
+
+chmod +x ./eth-private-net
+./eth-private-net init
+
+echo "  "
+echo " To Tear down your private blockchain, just run  : "
+echo "  "
+echo "  cd $OPS_HOME/abovetest/provisioning && ./eth-private-net clean  "
+echo "  "
+
+
+
+# ------------------------------------------------
+# 2./ use case 1 
+# 
+mkdir -p $OPS_HOME/abovetest/provisioning
+cd $OPS_HOME/abovetest/provisioning
+
+git clone "$RECIPE_UNDER_TEST" .
+
+
+chmod +x ./eth-private-net
+./eth-private-net init
+
+```
+### Expected Outputs
+
+_**For the proviniong**_
+
+* I ran the initialization script, and got the same error, `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory`, for each of the three "parties" in the blockchain, involved in mister Chu's e2e test proposal : 
+
+```bash
+jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+Initializing genesis block for alice
+INFO [06-20|17:34:52.507] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|17:34:52.507] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|17:34:52.509] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|17:34:52.579] Writing custom genesis block 
+INFO [06-20|17:34:52.579] Persisted trie from memory database      nodes=3 size=409.00B time=104.49µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|17:34:52.580] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|17:34:52.580] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|17:34:52.591] Writing custom genesis block 
+INFO [06-20|17:34:52.591] Persisted trie from memory database      nodes=3 size=409.00B time=90.892µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|17:34:52.592] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for bob
+INFO [06-20|17:34:52.645] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|17:34:52.646] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|17:34:52.647] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|17:34:52.660] Writing custom genesis block 
+INFO [06-20|17:34:52.660] Persisted trie from memory database      nodes=3 size=409.00B time=198.943µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|17:34:52.661] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|17:34:52.661] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|17:34:52.672] Writing custom genesis block 
+INFO [06-20|17:34:52.672] Persisted trie from memory database      nodes=3 size=409.00B time=104.994µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|17:34:52.672] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for lily
+INFO [06-20|17:34:52.720] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|17:34:52.721] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|17:34:52.722] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|17:34:52.866] Writing custom genesis block 
+INFO [06-20|17:34:52.866] Persisted trie from memory database      nodes=3 size=409.00B time=155.136µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|17:34:52.875] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|17:34:52.875] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|17:34:52.887] Writing custom genesis block 
+INFO [06-20|17:34:52.888] Persisted trie from memory database      nodes=3 size=409.00B time=109.506µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|17:34:52.889] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ 
+```
+I am afraid this error, `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory`, involves that all three nodes are unsable, _disabled_. Plsu What I am sruprised not to see here, is : 
+* that we have a readable log for all three `Bob`, `Alice` and their third friend, 
+* but where are the logs for the `bootnode` ? (required for the `enodes` to be able to discover each other, according to the official documentation) 
+
+
+# Annoying `Ethereum` Documentation top of the pops
+
+* Excuse-me : Documentation on Ethereum _IS_ terrible ! : I just ran the `make all` build command on source, and well, after I read, and complied with, the `1.8` Golang version requirement [from the very official Developer Doc.](https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#go-environment), guess what first error messgae I got ? : 
 
 ```bash
 jbl@poste-devops-typique:~/.ethereum-test/build$ make all
@@ -128,6 +225,7 @@ make: *** [all] Error 1
 jbl@poste-devops-typique:~/.ethereum-test/build$ 
 # you *!/\-/-*X
 ```
+Are there any left developers on that project? Cause Actually I really hope they will have a better work env. soon, and I certainly wonder if there is going to be a contributors rush on Ethereum, in such a context...
 
 * résultat : 
 
