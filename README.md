@@ -161,7 +161,9 @@ chmod +x ./eth-private-net
 ./eth-private-net init
 
 ```
-### Expected Outputs
+
+
+### (Un)Expected Outputs
 
 _**For the proviniong**_
 
@@ -208,7 +210,33 @@ I am afraid this error, `Smartcard socket not found, disabling    err="stat /run
 * that we have a readable log for all three `Bob`, `Alice` and their third friend, 
 * but where are the logs for the `bootnode` ? (required for the `enodes` to be able to discover each other, according to the official documentation) 
 
+_**About the `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error**_
 
+SO first things first, questions : 
+
+* What are  `Smart Cards`?
+Well, Thank you Debian Wiki, we have a full explanation on Debian's Wiki https://wiki.debian.org/Smartcards : 
+
+> 
+> Smartcard (also known as chip card, or integrated circuit card (ICC)) 
+> 
+> Smartcards are used with cryptographic keys to ensure that their private half is never on any hard disk or other general storage device, and therefore that it cannot possibly be stolen (because there's only one possible copy of it). Most physical key "dongles" also implement a chip card interface device (CCID) and so can be used as smartcards, even though you can never remove the smartcard from the "reader". 
+> 
+To sum that all up, it's a crypto utility, ensuring intégrity and privacy of a private key, using haarware and software (not just software alone, with standard hardware) 
+
+Even more concisely, it's a utility the Ethereum Blockchain needs
+
+* What si the `pcscd` executable?  Well its an executable supposed to be a driver for a Smartcard
+
+* So what the Heck does this error message means? Well it's the `pcscd` executable, the SmartCard driver, terminating its execution, which just tells us he could not find the `SmartCard's Socket`, therefore can't do what it has to do. Actually, given the `socket` term, I assume the communication between the `SmartCard` and the `pcscd` driver daemon, is impossible, which obviously makes it difficult to work with a SMartCArd, even if you're a Rock Solid Debian. 
+
+_Howdi, Is there not an NVIDIA missing here...? (or `OpenCL / Smart Card` ... might be that)..._
+
+
+Source of informations : 
+* https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=751745 : contact `Ludovic Rousseau <ludovic.rousseau@free.fr>` definitely looks like a LSB module / Linux driver issue, might be `Debian` specific, and not happening on Ubuntu which Mr. Chu probably used for his tests
+* https://ludovicrousseau.blogspot.com/2011/11/pcscd-auto-start-using-systemd.html : Again, Mr. `Ludovic Rousseau <ludovic.rousseau@free.fr>` 
+* https://wiki.debian.org/Smartcards
 # Annoying `Ethereum` Documentation top of the pops
 
 * Excuse-me : Documentation on Ethereum _IS_ terrible ! : I just ran the `make all` build command on source, and well, after I read, and complied with, the `1.8` Golang version requirement [from the very official Developer Doc.](https://github.com/ethereum/go-ethereum/wiki/Developers%27-Guide#go-environment), guess what first error messgae I got ? : 
