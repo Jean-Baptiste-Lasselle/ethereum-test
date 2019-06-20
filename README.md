@@ -102,6 +102,14 @@ make all
 
 # Never the less, this incredible requirement, should be more a [go get github.com/ethereum/go-ethereum], which would immediately properly place the lib where it should be for the build...(Do the guys who write the READMees know anything about `go`...?)
 
+# Now setting up all built executable Folder to the PATH
+ls -allh $OPS_HOME/build/bin
+echo "export PATH=\$PATH:\$OPS_HOME/build/bin" >> ~/.profile
+export PATH=$PATH:$OPS_HOME/build/bin
+ls -allh $OPS_HOME/build/bin
+echo "You Will now find all built  executable, including [geth], in [$OPS_HOME/build/bin] "
+# ./build/bin/geth version
+geth version
 
 
 ```
@@ -121,4 +129,22 @@ jbl@poste-devops-typique:~/.ethereum-test/build$
 # you *!/\-/-*X
 ```
 
-*
+* résultat : 
+
+```bash
+jbl@poste-devops-typique:~/.ethereum-test/build$ ./build/bin/geth version
+INFO [06-20|13:19:48.849] Bumping default cache on mainnet         provided=1024 updated=4096
+WARN [06-20|13:19:48.849] Sanitizing cache to Go's GC limits       provided=4096 updated=2662
+Geth
+Version: 1.9.0-unstable
+Git Commit: 25c3282cf1260bdc68c4ba9075c2bcc2f8136ea5
+Git Commit Date: 20190620
+Architecture: amd64
+Protocol Versions: [63 62]
+Network Id: 1
+Go Version: go1.9.7
+Operating System: linux
+GOPATH=
+GOROOT=/usr/local/go
+jbl@poste-devops-typique:~/.ethereum-test/build$ 
+```
