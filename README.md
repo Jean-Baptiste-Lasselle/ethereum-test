@@ -149,6 +149,26 @@ geth version
 # ------------------------------------------------
 
 # ------------------------------------------------
+# 0. Provisioning the Smart Card driver
+# 
+
+# 
+# Official [PC SC LITE] source code Git repository
+# 
+export SMART_CARD_PACKAGE_SOURCE_GIT_URI=https://salsa.debian.org/debian/pcsc-lite.git
+
+mkdir -p $OPS_HOME/.pcsc-lite
+cd $OPS_HOME/.pcsc-lite
+git clone "$SMART_CARD_PACKAGE_SOURCE_GIT_URI" .
+
+# Briefly, the shell command './configure && make && make install'  should configure, build, AND install this package.
+# see. https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL
+
+sudo apt-get install -y systemd-dev*
+sudo ./configure && sudo make && sudo make install
+
+
+# ------------------------------------------------
 # 1./ provisioning 
 # 
 mkdir -p $OPS_HOME/abovetest/provisioning
