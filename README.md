@@ -210,7 +210,7 @@ chmod +x ./eth-private-net
 * I ran the initialization script, and got the same error, `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory`, for each of the three "parties" in the blockchain, involved in mister Chu's e2e test proposal : 
 
 ```bash
-jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
 Initializing genesis block for alice
 INFO [06-20|17:34:52.507] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [06-20|17:34:52.507] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
@@ -532,7 +532,7 @@ But I got saved by some [@shearl](https://github.com/shearl) (thanks so much, Ke
 
 ```bash
 jbl@poste-devops-typique:~/.ethereum-test/.pcsc-lite$ sudo systemctl status pcscd
-[sudo] password for jibl: 
+[sudo] password for jbl: 
 ● pcscd.service - PC/SC Smart Card Daemon
    Loaded: loaded (/lib/systemd/system/pcscd.service; indirect; vendor preset: enabled)
    Active: inactive (dead)
@@ -593,7 +593,7 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl stat
    Active: inactive (dead)
      Docs: man:pcscd(8)
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl enable pcscd.socket 
-[sudo] password for jibl: 
+[sudo] password for jbl: 
 Created symlink /etc/systemd/system/sockets.target.wants/pcscd.socket → /lib/systemd/system/pcscd.socket.
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl enable pcscd.service
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl daemon-reload
@@ -601,7 +601,7 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-
 Cleaning geth/ directory from alice
 Cleaning geth/ directory from bob
 Cleaning geth/ directory from lily
-jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
 Initializing genesis block for alice
 INFO [06-20|20:42:32.536] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [06-20|20:42:32.536] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
@@ -682,11 +682,11 @@ total 0
 drwxr-xr-x  2 root root  60 Jun 20 20:56 .
 drwxr-xr-x 25 root root 860 Jun 20 20:56 ..
 lrwxrwxrwx  1 root root  21 Jun 20 20:56 pcscd.comm -> /run/pcscd/pcscd.comm
-jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
 Cleaning geth/ directory from alice
 Cleaning geth/ directory from bob
 Cleaning geth/ directory from lily
-jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
 Initializing genesis block for alice
 INFO [06-20|20:59:50.663] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [06-20|20:59:50.663] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: too many levels of symbolic links"
