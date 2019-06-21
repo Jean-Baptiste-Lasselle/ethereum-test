@@ -45,7 +45,15 @@ export GOLANG_VERSION=1.9.7
 export MACHINE_OS=linux
 export MACHINE_PROCESSOR_ARCH=amd64
 export GOLANG_BINARY_DWLD_URI=https://dl.google.com/go/go$GOLANG_VERSION.$MACHINE_OS-$MACHINE_PROCESSOR_ARCH.tar.gz
+# https://github.com/golang/go/wiki/SettingGOPATH#bash
+# I'll have a go workspace in $OPS_HOME/geth-build/
+export GOPATH=$OPS_HOME/geth-build/
 
+# 
+# And I still won't set the linux user's profile, unless I have to IAAC : 
+# because I want this environment to be as volatileas possible.
+# echo "export GOPATH=$OPS_HOME/geth-build/" >> ~/.bash_profile
+# source ~/.bash_profile
 # 
 
 mkdir -p $OPS_HOME/.golang-provisioning
@@ -59,7 +67,7 @@ sudo tar -C /usr/local -xzf go$GOLANG_VERSION.$MACHINE_OS-$MACHINE_PROCESSOR_ARC
 export PATH=$PATH:/usr/local/go/bin
 # 
 # For a persistent configuration (after restarting the machine) : 
-echo "export PATH=\$PATH:/usr/local/go/bin" >> $HOME/.profile
+echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.bash_profile
 # But we just need the environement set for one execution, and forget about all of it.
 # Just one purpose might be relevant here : for debugging quickly, so basically keep this one commented for produciton envronnements (actual pipelines).
 # print go env. infos
@@ -77,8 +85,8 @@ go env
 # ------------------------------------------------
 # ------------------------------------------------
 
-mkdir -p $OPS_HOME/build
-cd $OPS_HOME/build
+mkdir -p $OPS_HOME/geth-build
+cd $OPS_HOME/geth-build
 
 git clone "$GO_ETH_CLIENT_SOURCE_CODE_REF" .
 
@@ -87,27 +95,27 @@ git clone "$GO_ETH_CLIENT_SOURCE_CODE_REF" .
 # So I'll try this : 
 sudo mkdir -p $GOPATH/src/github.com/ethereum/go-ethereum
 export THATS_WHOIAM=$(whoami)
-sudo -u $THATS_WHOIAM ln -s $OPS_HOME/build/* $GOPATH/src/github.com/ethereum/go-ethereum
+sudo -u $THATS_WHOIAM ln -s $OPS_HOME/geth-build/* $GOPATH/src/github.com/ethereum/go-ethereum
 # just to ckeck : 
 ls -allh $GOPATH/src/github.com/ethereum/go-ethereum
-ls -allh $OPS_HOME/build/*
+ls -allh $OPS_HOME/geth-build/*
 
 
 # Now, we should be able to run the build with : 
 # go install -v ./...
 # But instead, we'll try and use the Makefile (don't Ethereum DEveloper Team recommend using make/ Makefiles to developers?... puzzling, nevermind) : 
 
-cd $OPS_HOME/build
+cd $OPS_HOME/geth-build
 make all 
 
 # Never the less, this incredible requirement, should be more a [go get github.com/ethereum/go-ethereum], which would immediately properly place the lib where it should be for the build...(Do the guys who write the READMees know anything about `go`...?)
 
 # Now setting up all built executable Folder to the PATH
-ls -allh $OPS_HOME/build/build/bin
-echo "export PATH=\$PATH:\$OPS_HOME/build/build/bin" >> ~/.profile
-export PATH=$PATH:$OPS_HOME/build/build/bin
-ls -allh $OPS_HOME/build/bin
-echo "You Will now find all built  executable, including [geth], in [$OPS_HOME/build/build/bin] "
+ls -allh $OPS_HOME/geth-build/build/bin
+echo "export PATH=\$PATH:$OPS_HOME/geth-build/build/bin" >> ~/.profile
+export PATH=$PATH:$OPS_HOME/geth-build/build/bin
+ls -allh $OPS_HOME/geth-build/bin
+echo "You Will now find all built  executable, including [geth], in [$OPS_HOME/geth-build/build/bin] "
 # ./build/build/bin/geth version
 geth version
 
