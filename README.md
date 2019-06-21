@@ -289,7 +289,7 @@ case $CMD in
 ;;
 ```
   * And if you `Ctrl + F / grep` into the `./eth-private-net`, searching for the `bootnode` string, or even the `boot` string, well you will have .... `zero` results. 
-  * Okay, so my worry about not finding anything about the required  `bootnode`, in the logs, where completely justified. Not that am happy to be right, there, I'd have so preferred to be worng. 
+  * Okay, so my worry about not finding anything about the required  `bootnode`, in the logs, where completely justified. Not that am happy to be right, there, I'd so much have preferred to be wrong. 
   * All in all, one probable cause here is : Mr. Chu worked on a version of `Ethereum` a long time ago, and has probably not worked on latest versions of `Ethereum` (as of `June 2019`). Indeed, Mr. Chu made 28 commits , and zero issues were opened, just as many closed. That is really not a lot of work, and zero collaboration.
   * Eventually, I'll try the same recipe of mine, on a bare metal debian on alienware with NVIDIA, we'll see if the `SmartCard's Socket` error disapears, just because I switched hardware, but it might just as well the bootnode's setup missing part, that's supposed to spun up / open a `SmartCard Socket` 
   
