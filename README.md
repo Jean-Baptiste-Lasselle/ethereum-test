@@ -476,23 +476,28 @@ At first execution of that script, I get the following error :
 ```bash
 configure: error: install libsystemd-dev or use --disable-libsystemd
 ```
-sur le sujet, une issue dans laquelle Ludovic Rousseau traite de la question : https://github.com/LudovicRousseau/PCSC/issues/2
+<!--
+* Sur le sujet, une issue dans laquelle Ludovic Rousseau traite de la question : https://github.com/LudovicRousseau/PCSC/issues/2
+-->
+* About that error, I found an issue on `pc sc lite` official git repo : https://github.com/LudovicRousseau/PCSC/issues/2
+* Unfortunately for me, MR. Rousseau's  answer is pretty much take care : 
 
-Unfortunately for me, MR. Rousseau's answer is pretty much take care : 
+_(Mr. Rousseau I guess, is the lead Debian developer for `pc sc lite` driver)_
 
-```bash
-Debian provides systemd version 228 and libudev-dev is still provided.
+> 
+> Debian provides systemd version 228 and libudev-dev is still provided.
 libsystemd-dev does not provide the pkg-config file libudev.pc used by the check in configure.
+> 
+> Packages names and content will depend on every Linux distribution. I do not plan to write a complete INSTALL documentation in the configure error message. I don't think this proposal is a good idea.
+> 
+> As a developer building pcsc-lite you should be smart enough to know what package to install :-)
+> 
 
-Packages names and content will depend on every Linux distribution. I do not plan to write a complete INSTALL documentation in the configure error message. I don't think this proposal is a good idea.
 
-As a developer building pcsc-lite you should be smart enough to know what package to install :-)
-```
-
-But I got saved by some @shearl ... :
+But I got saved by some [@shearl](https://github.com/shearl) (thanks so much, Keith, for your `sudo apt-get install -y systemd-dev*` tip ...) :
 
 * `sudo apt-get install -y libsystemd-dev` and re-running `sudo ./configure && sudo make && sudo make install`, got me to the same error, but this time it's `libudev` that is suggested missing and should be installed.
-* Finally, running `sudo apt-get install -y systemd-dev*` ([many thanks to shearle and Ludovic Rousseau](https://github.com/LudovicRousseau/PCSC/issues/2#issuecomment-504243393) ), and re-running `sudo ./configure && sudo make && sudo make install` finally brought me the :+1: first build from source of the `pcsc-lite` driver : 
+* Finally, running `sudo apt-get install -y systemd-dev*` ([many thanks to Keith Shearl, and Ludovic Rousseau](https://github.com/LudovicRousseau/PCSC/issues/2#issuecomment-504243393) ), and re-running `sudo ./configure && sudo make && sudo make install` finally brought me the :+1: first build from source of the `pcsc-lite` driver : 
 
 ```bash
 jbl@poste-devops-typique:~/.ethereum-test/.pcsc-lite$ sudo systemctl status pcscd
