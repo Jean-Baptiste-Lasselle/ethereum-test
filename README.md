@@ -787,7 +787,8 @@ ERROR[06-20|21:11:00.384] Invalid smartcard daemon path            path=/run/pcs
 
 # POINT BLOCAGE/REPRISE
 
-Bon,là, je ne vois qu'une seule chose raisonnable à faire pour aller au plus loin : essayer de re-définir complètement le service SystemD pour `pc sc lite`, et vérifeir que tout va bien dans le définition de serice, car l'à d=j'ai encore une erreur de path, et ne suis pas encore spécialiste `SystemD`.
+Bon,là, je ne vois qu'une seule chose raisonnable à faire pour aller au plus loin : essayer de re-définir complètement le service SystemD pour `pc sc lite`, et vérifeir que tout va bien dans le définition de serice, car l'à d=j'ai encore une erreur de path, et il va falloir que je revoie en détail, le setup d'un service et ses dépendances, avec `SystemD`.
+
 
 * So I'll now just try and run the same thing, but on a bare metal machine with an nvidia , Debian stretch, and the NVIDIA driver for my `os` / `proc arch`
 
