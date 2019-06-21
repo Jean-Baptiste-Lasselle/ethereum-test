@@ -15,8 +15,10 @@ I Used Virtual Box for the following purposes :
 
 # Diving session 1 : bulk automation (Before Ansible Playbook)
 
-* Pre-requisites : installing `geth`. Here I have a problem, which that ethereum go-client only supports Ubuntu, so I'll first try and build the `go-ethereum` implementation on my debian stretch bas machine. Otherwise, I'll just switch to docker containers 
-
+* Pre-requisites : 
+  * installing `geth`. Here I have a problem, which that ethereum go-client only supports Ubuntu, so I'll first try and build the `go-ethereum` implementation on my debian stretch bas machine. Otherwise, I'll just switch to docker containers. update : I succeded build from source `geth`, on debian, and it seems to work ok, jsut [the Smart Card driver issue remaining](cccc). 
+  * installing `GNU / gcc / make` classical dev env. on Debian Stretch
+  * 
 ```bash
 export OPS_HOME=~/.ethereum-test
 export RECIPE_UNDER_TEST=https://github.com/vincentchu/eth-private-net
