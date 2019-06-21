@@ -635,6 +635,7 @@ Just a bloody hell to have `geth` properly using the SmartCArd driver SystemD se
 ERROR[06-20|21:11:00.384] Invalid smartcard daemon path            path=/run/pcscd/pcscd.comm type=-rw-r--r--
 ```
 
+
 # POINT BLOCAGE/REPRISE
 
 
