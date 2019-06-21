@@ -174,14 +174,6 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$
 
 Okay, the `/run/pcscd/pcscd.comm` does not exist. So the diagnosis is that Mr. Chu's script `./eth-private-net`, launches a command (which one?) which execution throws this error, that the `/run/pcscd/pcscd.comm` does not exist. I looked up MR. Chu 's `./eth-private-net`, and I see no particular command, but the `geth` command, that can trigger an invocation of a SmartCard driver. 
 
-#### Some probable causes of the `Smartcard socket not found, disabling [...]` error
-
-* I built geth on Debian, but it is specifically recommended that this build is waged in an Ubuntu instance. Which would mean that `geth` source code might have runtime dependencies specific to Ubuntu : necessarily runtime dependencies, not build dependencies, because I succeeded the build phase, so I know build dependencies were all resolved, and errors occur at runtime. And on Debian, those runtime dependencies are not resolved (they are missing or not usable as expected on Ubuntu).  
-* `VirtualBox` has a problem regarding smart cards drivers support, which messes up with geth (that one is a particular case of the probable cause described in previous bullet point.
- 
-
-I just temporarily stop this analysis here, will go further later on. My net try will be to try and install the `pc sc lite` on Debian, using https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL , which is pretty much the official source code  distribution channel for the  `pc sc lite` package on Debian.
-
 
 
 Source of informations : 
@@ -644,6 +636,16 @@ ERROR[06-20|21:11:00.384] Invalid smartcard daemon path            path=/run/pcs
 ```
 
 # POINT BLOCAGE/REPRISE
+
+
+#### Some probable causes of the `Smartcard socket not found, disabling [...]` error
+
+* I built geth on Debian, but it is specifically recommended that this build is waged in an Ubuntu instance. Which would mean that `geth` source code might have runtime dependencies specific to Ubuntu : necessarily runtime dependencies, not build dependencies, because I succeeded the build phase, so I know build dependencies were all resolved, and errors occur at runtime. And on Debian, those runtime dependencies are not resolved (they are missing or not usable as expected on Ubuntu).  
+* `VirtualBox` has a problem regarding smart cards drivers support, which messes up with geth (that one is a particular case of the probable cause described in previous bullet point.
+ 
+
+I just temporarily stop this analysis here, will further investigate those probable causes later on. I added a recipe  in `./operations.sh` which builds n installs the `pc sc lite` driver on Debian, using https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL (which is pretty much the official source code  distribution channel for the  `pc sc lite` package on `Debian`.
+
 
 Bon,là, je ne vois qu'une seule chose raisonnable à faire pour aller au plus loin : essayer de re-définir complètement le service SystemD pour `pc sc lite`, et vérifeir que tout va bien dans le définition de serice, car l'à d=j'ai encore une erreur de path, et il va falloir que je revoie en détail, le setup d'un service et ses dépendances, avec `SystemD`.
 
