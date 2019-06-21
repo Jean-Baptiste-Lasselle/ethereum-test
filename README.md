@@ -470,7 +470,7 @@ configure: error: install libsystemd-dev or use --disable-libsystemd
 ```
 sur le sujet, une issue dans laquelle Ludovic Rousseau traite de la question : https://github.com/LudovicRousseau/PCSC/issues/2
 
-Unfortunately for me, MR; Rousseau's answer is pretty much take care : 
+Unfortunately for me, MR. Rousseau's answer is pretty much take care : 
 
 ```bash
 Debian provides systemd version 228 and libudev-dev is still provided.
@@ -548,6 +548,9 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl stat
    Loaded: loaded (/lib/systemd/system/pcscd.service; indirect; vendor preset: enabled)
    Active: inactive (dead)
      Docs: man:pcscd(8)
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl enable pcscd.socket 
+[sudo] password for jibl: 
+Created symlink /etc/systemd/system/sockets.target.wants/pcscd.socket → /lib/systemd/system/pcscd.socket.
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl enable pcscd.service
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl daemon-reload
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
