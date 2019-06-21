@@ -480,6 +480,7 @@ Packages names and content will depend on every Linux distribution. I do not pla
 
 As a developer building pcsc-lite you should be smart enough to know what package to install :-)
 ```
+
 But I got saved by some @shearl ... :
 
 * `sudo apt-get install -y libsystemd-dev` and re-running `sudo ./configure && sudo make && sudo make install`, got me to the same error, but this time it's `libudev` that is suggested missing and should be installed.
@@ -497,7 +498,7 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
 Linux poste-devops-typique 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux
 ```
 
-So wow, great now I can re-run Mister Chu's `ccc`, with  `pcscd` surely presnet on the system (and it wa tricky to make sure it is...)
+So wow, great now I can re-run Mister Chu's `./eth-private-net init`, with  `pcscd` surely presnet on the system (and it wa tricky to make sure it is...)
 
 ```bash
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
@@ -510,44 +511,117 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-
 Initializing genesis block for alice
 INFO [06-20|20:36:36.363] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [06-20|20:36:36.363] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
-INFO [06-20|20:36:36.365] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.365] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
 INFO [06-20|20:36:36.381] Writing custom genesis block 
 INFO [06-20|20:36:36.382] Persisted trie from memory database      nodes=3 size=409.00B time=114.148µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
 INFO [06-20|20:36:36.383] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
-INFO [06-20|20:36:36.384] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.384] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
 INFO [06-20|20:36:36.395] Writing custom genesis block 
 INFO [06-20|20:36:36.395] Persisted trie from memory database      nodes=3 size=409.00B time=93.182µs  gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
 INFO [06-20|20:36:36.396] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
 Initializing genesis block for bob
 INFO [06-20|20:36:36.451] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [06-20|20:36:36.451] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
-INFO [06-20|20:36:36.453] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.453] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
 INFO [06-20|20:36:36.462] Writing custom genesis block 
 INFO [06-20|20:36:36.462] Persisted trie from memory database      nodes=3 size=409.00B time=98.065µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
 INFO [06-20|20:36:36.463] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
-INFO [06-20|20:36:36.463] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.463] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
 INFO [06-20|20:36:36.483] Writing custom genesis block 
 INFO [06-20|20:36:36.484] Persisted trie from memory database      nodes=3 size=409.00B time=138.035µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
 INFO [06-20|20:36:36.484] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
 Initializing genesis block for lily
 INFO [06-20|20:36:36.530] Maximum peer count                       ETH=50 LES=0 total=50
 INFO [06-20|20:36:36.530] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
-INFO [06-20|20:36:36.531] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.531] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
 INFO [06-20|20:36:36.548] Writing custom genesis block 
 INFO [06-20|20:36:36.548] Persisted trie from memory database      nodes=3 size=409.00B time=144.575µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
 INFO [06-20|20:36:36.549] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
-INFO [06-20|20:36:36.549] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.549] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
 INFO [06-20|20:36:36.567] Writing custom genesis block 
 INFO [06-20|20:36:36.568] Persisted trie from memory database      nodes=3 size=409.00B time=66.919µs  gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
 INFO [06-20|20:36:36.568] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
-jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
 Linux poste-devops-typique 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux
-jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl status pcscd
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl status pcscd
 ● pcscd.service - PC/SC Smart Card Daemon
    Loaded: loaded (/lib/systemd/system/pcscd.service; indirect; vendor preset: enabled)
    Active: inactive (dead)
      Docs: man:pcscd(8)
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl enable pcscd.service
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl daemon-reload
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
+Cleaning geth/ directory from alice
+Cleaning geth/ directory from bob
+Cleaning geth/ directory from lily
+jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+Initializing genesis block for alice
+INFO [06-20|20:42:32.536] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:42:32.536] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|20:42:32.538] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:42:32.551] Writing custom genesis block 
+INFO [06-20|20:42:32.552] Persisted trie from memory database      nodes=3 size=409.00B time=103.62µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:42:32.553] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:42:32.553] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:42:32.563] Writing custom genesis block 
+INFO [06-20|20:42:32.568] Persisted trie from memory database      nodes=3 size=409.00B time=4.36146ms gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:42:32.569] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for bob
+INFO [06-20|20:42:32.624] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:42:32.624] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|20:42:32.625] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:42:32.635] Writing custom genesis block 
+INFO [06-20|20:42:32.638] Persisted trie from memory database      nodes=3 size=409.00B time=96.715µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:42:32.638] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:42:32.638] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:42:32.657] Writing custom genesis block 
+INFO [06-20|20:42:32.657] Persisted trie from memory database      nodes=3 size=409.00B time=68.863µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:42:32.657] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for lily
+INFO [06-20|20:42:32.699] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:42:32.699] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|20:42:32.700] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:42:32.713] Writing custom genesis block 
+INFO [06-20|20:42:32.713] Persisted trie from memory database      nodes=3 size=409.00B time=101.983µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:42:32.714] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:42:32.714] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:42:32.734] Writing custom genesis block 
+INFO [06-20|20:42:32.734] Persisted trie from memory database      nodes=3 size=409.00B time=69.079µs  gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:42:32.735] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl status pcscd
+● pcscd.service - PC/SC Smart Card Daemon
+   Loaded: loaded (/lib/systemd/system/pcscd.service; indirect; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:pcscd(8)
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl status pcscd.socket 
+● pcscd.socket - PC/SC Smart Card Daemon Activation Socket
+   Loaded: loaded (/lib/systemd/system/pcscd.socket; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+   Listen: /var/run/pcscd/pcscd.comm (Stream)
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ cat /lib/systemd/system/pcscd.socket 
+[Unit]
+Description=PC/SC Smart Card Daemon Activation Socket
+
+[Socket]
+ListenStream=/var/run/pcscd/pcscd.comm
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ cat /lib/systemd/system/pcscd.service 
+[Unit]
+Description=PC/SC Smart Card Daemon
+Requires=pcscd.socket
+Documentation=man:pcscd(8)
+
+[Service]
+ExecStart=/usr/local/sbin/pcscd --foreground --auto-exit
+ExecReload=/usr/local/sbin/pcscd --hotplug
+
+[Install]
+Also=pcscd.socket
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ 
+
 
 ```
 
