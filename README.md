@@ -629,6 +629,7 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$
 ```
 
 Ouch, I AGAIN :@:, find the  `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error. There, I just stop investigating any further the error raised by Mr. Chu recipe : 
+* I found what the problem is, which is `geth` looking up for pcscd.socker inside a subfolder of `/run`, while my driver osocker was installed at `/var/run/pcscd/pcscd.socket`... I'll try symplinks there...? (changing the soft, or its provisioning recipe, and aslittle change as possible to the system) 
 * I'll now just try and run the same thing, but on a bare metal machine with an nvidia , Debian stretch, and the NVIDIA driver for my `os` / `proc arch`
 
 
