@@ -527,7 +527,8 @@ libsystemd-dev does not provide the pkg-config file libudev.pc used by the check
 
 But I got saved by some [@shearl](https://github.com/shearl) (thanks so much, Keith, for your `sudo apt-get install -y systemd-dev*` tip ...) :
 
-* `sudo apt-get install -y libsystemd-dev` and re-running `sudo ./configure && sudo make && sudo make install`, got me to the same error, but this time it's `libudev` that is suggested missing and should be installed.
+* `sudo apt-get install -y libsystemd-dev` and re-running `sudo ./configure && sudo make && sudo make install`, got me to the same error, but this time it's `libudev` that is suggested missing and should be installed. 
+* Installing both `sudo apt-get install -y libsystemd-dev libudev`, gives us just one more error, and we are trapped in a dependency resolution loop. Tricky, if we're down to reparing a build from source, of a driver, to see if by any chance... well.
 * Finally, running `sudo apt-get install -y systemd-dev*` ([many thanks to Keith Shearl, and Ludovic Rousseau](https://github.com/LudovicRousseau/PCSC/issues/2#issuecomment-504243393) ), and re-running `sudo ./configure && sudo make && sudo make install` finally brought me the :+1: first build from source of the `pcsc-lite` driver : 
 
 ```bash
@@ -542,7 +543,7 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
 Linux poste-devops-typique 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux
 ```
 
-So wow, great now I can re-run Mister Chu's `./eth-private-net init`, with  `pcscd` surely presnet on the system (and it wa tricky to make sure it is...)
+So wow, great now I can re-run Mister Chu's `./eth-private-net init`, with  `pcscd` surely presnet on the system (and it was tricky, to make sure it is...) : 
 
 ```bash
 jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
