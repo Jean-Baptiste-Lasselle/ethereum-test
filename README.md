@@ -113,6 +113,9 @@ Here is an example of a Smart Card reader on ebay (Has your boss ever given you 
 
 ![example Smart Card reader](https://github.com/Jean-Baptiste-Lasselle/ethereum-test/raw/master/images/SMART_CARDS_EXAMPLES_EBAY_2019-06-21%2007-23-56.png)
 
+![example Smart Card reader 2](https://github.com/Jean-Baptiste-Lasselle/ethereum-test/raw/master/images/SMART_CARDS_EXAMPLES_EBAY_2_2019-06-21%2007-42-40.png)
+
+
 Well that kind of hardware certainly isn't  capable of OpenCL or CUDA, like most `GPU` on the market. So **i don't see yet what role** does **the smart card plays in `ethereum` infra**, and why it pops up in this test.
 
 * What is the `pcscd` executable?  Well its an executable supposed to be a driver for a _SmartCard_
