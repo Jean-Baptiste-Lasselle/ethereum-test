@@ -120,6 +120,8 @@ cd $OPS_HOME/geth-build
 make all 
 
 # Never the less, this incredible requirement, should be more a [go get github.com/ethereum/go-ethereum], which would immediately properly place the lib where it should be for the build...(Do the guys who write the READMees know anything about `go`...?)
+# Actually, after a day of work, i am kind of flabergasted to see that this astonishing requirement is explained by the fact that ... The ethereum team has not used the `$GOPATH` env. variable... and less cared about explaining the basic env. setup for go developers) ...
+
 
 # Now setting up all built executable Folder to the PATH
 ls -allh $OPS_HOME/geth-build/build/bin
