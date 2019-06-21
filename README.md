@@ -2,6 +2,7 @@
 
 A quick dive, to see if https://github.com/vincentchu/eth-private-net  actually works
 
+
 # Warning
 
 All below tests were run inside a `VirtualBox` Virutal Machine, on a debian stretch Host, which is a physical machine having no other GRaphics Controller than the one embedded on my PC's motherboard.
@@ -183,6 +184,8 @@ Source of informations :
 * https://github.com/LudovicRousseau/pcsc-tools : Welln, Mr. Ludovic Rousseau seems to be a Debian contirbutor...
 * https://wiki.debian.org/Smartcards
 * https://pcsclite.apdu.fr/  (seems to be the official reference website on the Smart Card driver `pcscd`)
+* https://www.eltima.com/article/virtualbox-smart-card-reader-passthrough/
+
 
 #### An experiment starting an `enode`, despite the `Smartcard socket not found` error
 
@@ -678,3 +681,8 @@ GOPATH=
 GOROOT=/usr/local/go
 jbl@poste-devops-typique:~/.ethereum-test/build$ 
 ```
+
+### What if it's the problem was with `Virtualbox` ?
+
+About smart Card (readers) and VirtualBox : 
+* I found number of issues mentioning problems trying to setup the `pc cs lite` driver inside a `VirtualBox` VM, due to `VirtualBox`, in miscellaneous repos `git`.
