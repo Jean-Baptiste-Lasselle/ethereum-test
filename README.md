@@ -629,8 +629,122 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$
 ```
 
 Ouch, I AGAIN :@:, find the  `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error. There, I just stop investigating any further the error raised by Mr. Chu recipe : 
-* I found what the problem is, which is `geth` looking up for pcscd.socker inside a subfolder of `/run`, while my driver osocker was installed at `/var/run/pcscd/pcscd.socket`... I'll try symplinks there...? (changing the soft, or its provisioning recipe, and aslittle change as possible to the system) 
-* I'll now just try and run the same thing, but on a bare metal machine with an nvidia , Debian stretch, and the NVIDIA driver for my `os` / `proc arch`
+* I found what the problem is, which is `geth` looking up for pcscd.socker inside a subfolder of `/run`, while my driver socket was installed at `/var/run/pcscd/pcscd.socket`... I'll try symplinks there...? (changing the soft, or its provisioning recipe, and as little change as possible to the system). ANd Indeed, I had a change in the logs : 
+
+```bash
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo ln -s /run/pcscd/pcscd.comm /var/run/pcscd/pcscd.comm
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo ls -allh /run/pcscd
+total 0
+drwxr-xr-x  2 root root  60 Jun 20 20:56 .
+drwxr-xr-x 25 root root 860 Jun 20 20:56 ..
+lrwxrwxrwx  1 root root  21 Jun 20 20:56 pcscd.comm -> /run/pcscd/pcscd.comm
+jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
+Cleaning geth/ directory from alice
+Cleaning geth/ directory from bob
+Cleaning geth/ directory from lily
+jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+Initializing genesis block for alice
+INFO [06-20|20:59:50.663] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:59:50.663] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: too many levels of symbolic links"
+INFO [06-20|20:59:50.665] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:59:50.797] Writing custom genesis block 
+INFO [06-20|20:59:50.798] Persisted trie from memory database      nodes=3 size=409.00B time=133.292µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:59:50.798] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:59:50.798] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:59:50.910] Writing custom genesis block 
+INFO [06-20|20:59:50.910] Persisted trie from memory database      nodes=3 size=409.00B time=104.618µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:59:50.910] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for bob
+INFO [06-20|20:59:50.970] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:59:50.970] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: too many levels of symbolic links"
+INFO [06-20|20:59:50.971] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:59:50.983] Writing custom genesis block 
+INFO [06-20|20:59:50.983] Persisted trie from memory database      nodes=3 size=409.00B time=94.6µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:59:50.984] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:59:50.985] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:59:51.002] Writing custom genesis block 
+INFO [06-20|20:59:51.003] Persisted trie from memory database      nodes=3 size=409.00B time=82.739µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:59:51.003] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for lily
+INFO [06-20|20:59:51.052] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:59:51.052] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: too many levels of symbolic links"
+INFO [06-20|20:59:51.053] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:59:51.063] Writing custom genesis block 
+INFO [06-20|20:59:51.063] Persisted trie from memory database      nodes=3 size=409.00B time=75.441µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:59:51.064] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:59:51.064] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:59:51.077] Writing custom genesis block 
+INFO [06-20|20:59:51.078] Persisted trie from memory database      nodes=3 size=409.00B time=85.818µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:59:51.078] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ 
+```
+* Okay, so there we have no more error, just the same problem transformed a bit : Now It's SystemD complaining about the hacky dirty symbolic link that I set up  :
+
+```bash
+INFO [06-20|20:59:50.663] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: too many levels of symbolic links"
+```
+
+* Right, so Now I think I should change only little to have geth finding /run/pcscd/pcscd.comm
+
+```bash
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo systemctl status pcscd.socket 
+● pcscd.socket - PC/SC Smart Card Daemon Activation Socket
+   Loaded: loaded (/lib/systemd/system/pcscd.socket; enabled; vendor preset: enabled)
+   Active: inactive (dead)
+   Listen: /var/run/pcscd/pcscd.comm (Stream)
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo ln -s /lib/systemd/system/pcscd.socket /run/pcscd/pcscd.comm
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ sudo ls -allh  /run/pcscd/pcscd.comm 
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
+Cleaning geth/ directory from alice
+Cleaning geth/ directory from bob
+Cleaning geth/ directory from lily
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+Initializing genesis block for alice
+INFO [06-20|21:11:00.383] Maximum peer count                       ETH=50 LES=0 total=50
+ERROR[06-20|21:11:00.384] Invalid smartcard daemon path            path=/run/pcscd/pcscd.comm type=-rw-r--r--
+INFO [06-20|21:11:00.385] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|21:11:00.405] Writing custom genesis block 
+INFO [06-20|21:11:00.405] Persisted trie from memory database      nodes=3 size=409.00B time=107.048µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|21:11:00.406] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|21:11:00.406] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|21:11:00.420] Writing custom genesis block 
+INFO [06-20|21:11:00.420] Persisted trie from memory database      nodes=3 size=409.00B time=129.043µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|21:11:00.421] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for bob
+INFO [06-20|21:11:00.475] Maximum peer count                       ETH=50 LES=0 total=50
+ERROR[06-20|21:11:00.475] Invalid smartcard daemon path            path=/run/pcscd/pcscd.comm type=-rw-r--r--
+INFO [06-20|21:11:00.477] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|21:11:00.485] Writing custom genesis block 
+INFO [06-20|21:11:00.485] Persisted trie from memory database      nodes=3 size=409.00B time=77.755µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|21:11:00.486] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|21:11:00.486] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|21:11:00.509] Writing custom genesis block 
+INFO [06-20|21:11:00.509] Persisted trie from memory database      nodes=3 size=409.00B time=75.875µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|21:11:00.509] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for lily
+INFO [06-20|21:11:00.555] Maximum peer count                       ETH=50 LES=0 total=50
+ERROR[06-20|21:11:00.555] Invalid smartcard daemon path            path=/run/pcscd/pcscd.comm type=-rw-r--r--
+INFO [06-20|21:11:00.556] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|21:11:00.571] Writing custom genesis block 
+INFO [06-20|21:11:00.572] Persisted trie from memory database      nodes=3 size=409.00B time=77.265µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|21:11:00.572] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|21:11:00.573] Allocated cache and file handles         database=/home/jbl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|21:11:00.596] Writing custom genesis block 
+INFO [06-20|21:11:00.597] Persisted trie from memory database      nodes=3 size=409.00B time=71.975µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|21:11:00.597] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+
+```
+Just a bloody hell to have `geth` properly using the SmartCArd driver SystemD service... But I'm sure there is a way, or a major incompatibility of `geth` with recent versions of `pc sc lite` Smart Card Driver, cause I can't fathom why I get that error from `geth` : 
+
+```bash
+ERROR[06-20|21:11:00.384] Invalid smartcard daemon path            path=/run/pcscd/pcscd.comm type=-rw-r--r--
+```
+
+# POINT BLOCAGE/REPRISE
+
+Bon,là, je ne vois qu'une seule chose raisonnable à faire pour aller au plus loin : essayer de re-définir complètement le service SystemD pour `pc sc lite`, et vérifeir que tout va bien dans le définition de serice, car l'à d=j'ai encore une erreur de path, et ne suis pas encore spécialiste `SystemD`.
+
+* So I'll now just try and run the same thing, but on a bare metal machine with an nvidia , Debian stretch, and the NVIDIA driver for my `os` / `proc arch`
 
 
 # Annoying `Ethereum` Documentation top of the pops
