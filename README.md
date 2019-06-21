@@ -2,6 +2,17 @@
 
 A quick dive, to see if https://github.com/vincentchu/eth-private-net  actually works
 
+# Warning
+
+All below tests were run inside a `VirtualBox` Virutal Machine, for which :
+
+* I setup the "3D acceleration" feature, setting memory usage limit to  `128 MB` (the maximum allowed/supported by `Virtual Box`)
+* The maximum allowed/supported by `Virtual Box` is an issue realated to running `miners` _enodes_  I'll deal with in a private repo, given the unclear pratices, at least as far as I can tell today, of current (`2019`), the blockchain players. Because that part of a blockchain is its production most critical point. And probably the most interesting challenge in the very near future. With strategic issues, which discussion that are way beyond the present work. 
+
+I Used Virtual Box for the following purposes : 
+* because it's one of the most spread virt. tooling among developers
+* because it has enough features to build up a proper prototype / poc of a product I'm working on.
+
 # Diving session 1 : bulk automation (Before Ansible Playbook)
 
 * Pre-requisites : installing `geth`. Here I have a problem, which that ethereum go-client only supports Ubuntu, so I'll first try and build the `go-ethereum` implementation on my debian stretch bas machine. Otherwise, I'll just switch to docker containers 
