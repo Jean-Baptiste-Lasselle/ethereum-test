@@ -686,3 +686,5 @@ jbl@poste-devops-typique:~/.ethereum-test/build$
 
 About smart Card (readers) and VirtualBox : 
 * I found number of issues mentioning problems trying to setup the `pc cs lite` driver inside a `VirtualBox` VM, due to `VirtualBox`, in miscellaneous repos `git`.
+* A tutorial on how to privision the driver and operate, a smart card, for a `VirtualBox` VM : https://www.eltima.com/article/virtualbox-smart-card-reader-passthrough/
+
