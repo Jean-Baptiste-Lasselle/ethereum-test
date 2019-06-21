@@ -7,7 +7,7 @@ A quick dive, to see if https://github.com/vincentchu/eth-private-net  actually 
 All below tests were run inside a `VirtualBox` Virutal Machine, for which :
 
 * I setup the "3D acceleration" feature, setting memory usage limit to  `128 MB` (the maximum allowed/supported by `Virtual Box`)
-* The maximum allowed/supported by `Virtual Box` is an issue realated to running `miners` _enodes_  I'll deal with in a private repo, given the unclear pratices, at least as far as I can tell today, of current (`2019`), the blockchain players. Because that part of a blockchain is its production most critical point. And probably the most interesting challenge in the very near future. With strategic issues, which discussion that are way beyond the present work. 
+* The maximum allowed/supported by `Virtual Box` is an issue realated to running `miners` _enodes_  I'll deal with in a private repo, given the unclear pratices, at least as far as I can tell today, of current (`2019`), the blockchain players. Because that part of a blockchain is its production most critical point. And probably the most interesting challenge in the very near future. With strategic issues, of which discussion go way beyond the present work. 
 
 I Used Virtual Box for the following purposes : 
 * because it's one of the most spread virt. tooling among developers
