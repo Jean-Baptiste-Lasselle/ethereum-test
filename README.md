@@ -1,4 +1,5 @@
 # ethereum-test
+
 A quick dive, to see if https://github.com/vincentchu/eth-private-net  actually works
 
 # Diving session 1 : bulk automation (Before Ansible Playbook)
@@ -285,7 +286,8 @@ jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$
 
 Okay, the `/run/pcscd/pcscd.comm` does not exist. So the diagnosis is that Mr. Chu's script `./eth-private-net`, launches a command (which one?) which execution throws this error, that the `/run/pcscd/pcscd.comm` does not exist. I looked up MR. Chu 's `./eth-private-net`, and I see no particular command, but the `geth` command, that can trigger an invocation of a SmartCard driver. 
 
-I just temporarily stop this analysis here, will go further later on.
+I just temporarily stop this analysis here, will go further later on. My net try will be to try and install the `pc sc lite` on Debian, using https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL , which is pretty much the official source code  distribution channel for the  `pc sc lite` package on Debian.
+
 
 Source of informations : 
 
@@ -293,7 +295,7 @@ Source of informations :
 * https://ludovicrousseau.blogspot.com/2011/11/pcscd-auto-start-using-systemd.html : Again, Mr. `Ludovic Rousseau <ludovic.rousseau@free.fr>` 
 * https://github.com/LudovicRousseau/pcsc-tools : Welln, Mr. Ludovic Rousseau seems to be a Debian contirbutor...
 * https://wiki.debian.org/Smartcards
-
+* https://pcsclite.apdu.fr/  (seems to be the official reference website on the Smart Card driver `pcscd`)
 
 #### An experiment starting an `enode`, despite the `Smartcard socket not found` error
 
@@ -440,7 +442,117 @@ Oh but wait, starting the Alice `enode`, I again, find the  `Smartcard socket no
 Well knowing that Ethereum has a virtual machine conept with Intermediary Representations (bytecode and stuff..), I'll just guess this Javascript Console is pretty much alike the well known ECMAScripts engines embedded in the `Java Virtual Machine`.
 
 
+#### Install the `pc sc lite` on Debian
 
+Using instructions at official https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL
+
+Well the procedure is quite simple, it's a good old "Build from source", in the FSF / GNU / Debian pure spirit : 
+
+```bash
+export OPS_HOME=~/.ethereum-test
+export PACKAGE_SOURCE_GIT_URI=https://salsa.debian.org/debian/pcsc-lite.git
+
+mkdir -p $OPS_HOME/.pcsc-lite
+cd $OPS_HOME/.pcsc-lite
+git clone "$PACKAGE_SOURCE_GIT_URI" .
+
+# Briefly, the shell command './configure && make && make install'  should configure, build, AND install this package.
+# see. https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL
+
+sudo apt-get install -y systemd-dev*
+sudo ./configure && sudo make && sudo make install
+
+```
+At first execution of that script, I get the following error :
+
+```bash
+configure: error: install libsystemd-dev or use --disable-libsystemd
+```
+sur le sujet, une issue dans laquelle Ludovic Rousseau traite de la question : https://github.com/LudovicRousseau/PCSC/issues/2
+
+Unfortunately for me, MR; Rousseau's answer is pretty much take care : 
+
+```bash
+Debian provides systemd version 228 and libudev-dev is still provided.
+libsystemd-dev does not provide the pkg-config file libudev.pc used by the check in configure.
+
+Packages names and content will depend on every Linux distribution. I do not plan to write a complete INSTALL documentation in the configure error message. I don't think this proposal is a good idea.
+
+As a developer building pcsc-lite you should be smart enough to know what package to install :-)
+```
+But I got saved by some @shearl ... :
+
+* `sudo apt-get install -y libsystemd-dev` and re-running `sudo ./configure && sudo make && sudo make install`, got me to the same error, but this time it's `libudev` that is suggested missing and should be installed.
+* Finally, running `sudo apt-get install -y systemd-dev*` ([many thanks to shearle and Ludovic Rousseau](https://github.com/LudovicRousseau/PCSC/issues/2#issuecomment-504243393) ), and re-running `sudo ./configure && sudo make && sudo make install` finally brought me the :+1: first build from source of the `pcsc-lite` driver : 
+
+```bash
+jbl@poste-devops-typique:~/.ethereum-test/.pcsc-lite$ sudo systemctl status pcscd
+[sudo] password for jibl: 
+● pcscd.service - PC/SC Smart Card Daemon
+   Loaded: loaded (/lib/systemd/system/pcscd.service; indirect; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:pcscd(8)
+jbl@poste-devops-typique:~/.ethereum-test/.pcsc-lite$ # Ouh, and btw : 
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
+Linux poste-devops-typique 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux
+```
+
+So wow, great now I can re-run Mister Chu's `ccc`, with  `pcscd` surely presnet on the system (and it wa tricky to make sure it is...)
+
+```bash
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
+Linux poste-devops-typique 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net clean
+Cleaning geth/ directory from alice
+Cleaning geth/ directory from bob
+Cleaning geth/ directory from lily
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ ./eth-private-net init
+Initializing genesis block for alice
+INFO [06-20|20:36:36.363] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:36:36.363] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|20:36:36.365] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/alice/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.381] Writing custom genesis block 
+INFO [06-20|20:36:36.382] Persisted trie from memory database      nodes=3 size=409.00B time=114.148µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:36:36.383] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:36:36.384] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/alice/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.395] Writing custom genesis block 
+INFO [06-20|20:36:36.395] Persisted trie from memory database      nodes=3 size=409.00B time=93.182µs  gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:36:36.396] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for bob
+INFO [06-20|20:36:36.451] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:36:36.451] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|20:36:36.453] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/bob/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.462] Writing custom genesis block 
+INFO [06-20|20:36:36.462] Persisted trie from memory database      nodes=3 size=409.00B time=98.065µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:36:36.463] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:36:36.463] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/bob/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.483] Writing custom genesis block 
+INFO [06-20|20:36:36.484] Persisted trie from memory database      nodes=3 size=409.00B time=138.035µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:36:36.484] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+Initializing genesis block for lily
+INFO [06-20|20:36:36.530] Maximum peer count                       ETH=50 LES=0 total=50
+INFO [06-20|20:36:36.530] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [06-20|20:36:36.531] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/lily/geth/chaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.548] Writing custom genesis block 
+INFO [06-20|20:36:36.548] Persisted trie from memory database      nodes=3 size=409.00B time=144.575µs gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:36:36.549] Successfully wrote genesis state         database=chaindata hash=a528ae…08b398
+INFO [06-20|20:36:36.549] Allocated cache and file handles         database=/home/jibl/.ethereum-test/abovetest/provisioning/lily/geth/lightchaindata cache=16.00MiB handles=16
+INFO [06-20|20:36:36.567] Writing custom genesis block 
+INFO [06-20|20:36:36.568] Persisted trie from memory database      nodes=3 size=409.00B time=66.919µs  gcnodes=0 gcsize=0.00B gctime=0s livenodes=1 livesize=0.00B
+INFO [06-20|20:36:36.568] Successfully wrote genesis state         database=lightchaindata hash=a528ae…08b398
+jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ uname -a
+Linux poste-devops-typique 4.9.0-8-amd64 #1 SMP Debian 4.9.130-2 (2018-10-27) x86_64 GNU/Linux
+jibl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ systemctl status pcscd
+● pcscd.service - PC/SC Smart Card Daemon
+   Loaded: loaded (/lib/systemd/system/pcscd.service; indirect; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:pcscd(8)
+jbl@poste-devops-typique:~/.ethereum-test/abovetest/provisioning$ 
+
+```
+
+Ouch, I AGAIN :@:, find the  `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error. There, I just stop investigating any further the error raised by Mr. Chu recipe : 
+* I'll now just try and run the same thing, but on a bare metal machine with an nvidia , Debian stretch, and the NVIDIA driver for my `os` / `proc arch`
 
 
 # Annoying `Ethereum` Documentation top of the pops
