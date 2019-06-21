@@ -255,7 +255,7 @@ I am afraid this error, `Smartcard socket not found, disabling    err="stat /run
 * that we have a readable log for all three `Bob`, `Alice` and their third friend, 
 * but where are the logs for the `bootnode` ? (required for the `enodes` to be able to discover each other, according to the official documentation) 
 
-_**About the `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error**_
+## _About the `Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory` error_
 
 So first things first, questions : 
 
