@@ -643,6 +643,7 @@ ERROR[06-20|21:11:00.384] Invalid smartcard daemon path            path=/run/pcs
 * I built geth on Debian, but it is specifically recommended that this build is waged in an Ubuntu instance. Which would mean that `geth` source code might have runtime dependencies specific to Ubuntu : necessarily runtime dependencies, not build dependencies, because I succeeded the build phase, so I know build dependencies were all resolved, and errors occur at runtime. And on Debian, those runtime dependencies are not resolved (they are missing or not usable as expected on Ubuntu).  
 * `VirtualBox` has a problem regarding smart cards drivers support, which messes up with geth (that one is a particular case of the probable cause described in previous bullet point.
  
+* Une _issue_ qui montre que d'autre ont eut cette erreur de `Smart Card Driver` : https://github.com/ethereum/go-ethereum/issues/19494#issuecomment-504437251
 
 I just temporarily stop this analysis here, will further investigate those probable causes later on. I added a recipe  in `./operations.sh` which builds n installs the `pc sc lite` driver on Debian, using https://salsa.debian.org/debian/pcsc-lite/blob/master/INSTALL (which is pretty much the official source code  distribution channel for the  `pc sc lite` package on `Debian`.
 
